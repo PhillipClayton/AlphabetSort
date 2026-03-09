@@ -39,6 +39,14 @@ select{
 background:#666;
 }
 
+#gameBoard{
+transition:opacity .5s ease;
+}
+
+#gameBoard.faded{
+opacity:.4;
+}
+
 #wordList{
 width:320px;
 margin:auto;
@@ -61,16 +69,28 @@ transition:all .15s;
 transform:scale(1.03);
 }
 
+.word.sortable-chosen{
+box-shadow:0 8px 18px rgba(0,0,0,.25);
+transform:scale(1.05);
+}
+
 .correct{
 background:#b8f5c2;
 }
 
-.wrong{
-background:#ffcccc;
+.insertLine{
+position:relative;
 }
 
-.slotHint{
-border:2px dashed #4a7df3;
+.insertLine::before{
+content:"";
+position:absolute;
+left:-4px;
+right:-4px;
+top:-6px;
+height:4px;
+background:#4a7df3;
+border-radius:3px;
 }
 
 .win{
@@ -100,4 +120,11 @@ background:#b8f5c2;
 font-size:22px;
 margin-top:10px;
 font-weight:bold;
+}
+
+#leaderboard{
+width:200px;
+margin:10px auto;
+text-align:left;
+font-size:16px;
 }
