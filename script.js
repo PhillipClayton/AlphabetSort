@@ -164,8 +164,6 @@ const nodes = [...document.querySelectorAll(".word")];
 
 if(!target) return;
 
-/* detect dragging above first or below last */
-
 if(target === nodes[0] && evt.willInsertAfter === false) return;
 if(target === nodes[nodes.length-1] && evt.willInsertAfter === true) return;
 
@@ -212,9 +210,15 @@ animateWin(nodes);
 
 gameBoard.classList.add("faded");
 
+/* wait for animation cascade to finish */
+
+const animationDuration = nodes.length * 120 + 400;
+
 setTimeout(()=>{
+
 alert("You won! Time: " + timer + " seconds");
-},300);
+
+}, animationDuration);
 
 }
 
@@ -225,7 +229,9 @@ function animateWin(nodes){
 nodes.forEach((node,i)=>{
 
 setTimeout(()=>{
+
 node.classList.add("win");
+
 }, i*120);
 
 });
