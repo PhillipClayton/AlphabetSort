@@ -160,8 +160,14 @@ function showInsertionLine(evt){
 clearInsertionLines();
 
 const target = evt.related;
+const nodes = [...document.querySelectorAll(".word")];
 
 if(!target) return;
+
+/* detect dragging above first or below last */
+
+if(target === nodes[0] && evt.willInsertAfter === false) return;
+if(target === nodes[nodes.length-1] && evt.willInsertAfter === true) return;
 
 target.classList.add("insertLine");
 
