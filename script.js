@@ -3,19 +3,54 @@ let correctOrder = [];
 
 let timer = 0;
 let interval;
+let gameActive = true;
 
 const wordList = document.getElementById("wordList");
 const timerDisplay = document.getElementById("timer");
 const message = document.getElementById("message");
+const gameBoard = document.getElementById("gameBoard");
 
 const streakDisplay = document.getElementById("streak");
 const bestDisplay = document.getElementById("bestTime");
+const leaderboardEl = document.getElementById("leaderboard");
 
 let streak = Number(localStorage.getItem("streak")) || 0;
 let bestTime = Number(localStorage.getItem("bestTime")) || null;
 
 streakDisplay.textContent = streak;
 bestDisplay.textContent = bestTime || "-";
+
+function loadLeaderboard(){
+
+let scores = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+
+leaderboardEl.innerHTML="";
+
+scores.forEach(score=>{
+
+const li = document.createElement("li");
+li.textContent = score + " seconds";
+leaderboardEl.appendChild(li);
+
+});
+
+}
+
+function saveScore(time){
+
+let scores = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+
+scores.push(time);
+
+scores.sort((a,b)=>a-b);
+
+scores = scores.slice(0,10);
+
+localStorage.setItem("leaderboard", JSON.stringify(scores));
+
+loadLeaderboard();
+
+}
 
 async function loadWords(){
 
@@ -29,6 +64,10 @@ startGame();
 }
 
 function startGame(seed=null){
+
+gameActive = true;
+
+gameBoard.classList.remove("faded");
 
 clearInterval(interval);
 
@@ -83,13 +122,17 @@ animation:200,
 
 onMove:(evt)=>{
 
-showSlotHint(evt.dragged);
+if(!gameActive) return false;
+
+showInsertionLine(evt);
 
 },
 
 onEnd:()=>{
 
-clearHints();
+if(!gameActive) return;
+
+clearInsertionLines();
 checkLive();
 checkWin();
 
@@ -103,7 +146,7 @@ const nodes=[...document.querySelectorAll(".word")];
 
 nodes.forEach((node,i)=>{
 
-node.classList.remove("correct","wrong");
+node.classList.remove("correct");
 
 if(node.textContent===correctOrder[i])
 node.classList.add("correct");
@@ -112,33 +155,22 @@ node.classList.add("correct");
 
 }
 
-function showSlotHint(dragged){
+function showInsertionLine(evt){
 
-const nodes=[...document.querySelectorAll(".word")];
+clearInsertionLines();
 
-clearHints();
+const target = evt.related;
 
-const word=dragged.textContent;
+if(!target) return;
 
-for(let i=0;i<nodes.length;i++){
-
-if(word.localeCompare(nodes[i].textContent)<0){
-
-nodes[i].classList.add("slotHint");
-return;
+target.classList.add("insertLine");
 
 }
 
-}
+function clearInsertionLines(){
 
-nodes[nodes.length-1].classList.add("slotHint");
-
-}
-
-function clearHints(){
-
-document.querySelectorAll(".slotHint")
-.forEach(n=>n.classList.remove("slotHint"));
+document.querySelectorAll(".insertLine")
+.forEach(n=>n.classList.remove("insertLine"));
 
 }
 
@@ -149,6 +181,8 @@ const nodes=[...document.querySelectorAll(".word")];
 let current = nodes.map(n=>n.textContent);
 
 if(JSON.stringify(current)===JSON.stringify(correctOrder)){
+
+gameActive=false;
 
 clearInterval(interval);
 
@@ -166,7 +200,15 @@ bestDisplay.textContent=bestTime;
 
 }
 
+saveScore(timer);
+
 animateWin(nodes);
+
+gameBoard.classList.add("faded");
+
+setTimeout(()=>{
+alert("You won! Time: " + timer + " seconds");
+},300);
 
 }
 
@@ -177,9 +219,7 @@ function animateWin(nodes){
 nodes.forEach((node,i)=>{
 
 setTimeout(()=>{
-
 node.classList.add("win");
-
 }, i*120);
 
 });
@@ -241,4 +281,5 @@ startGame(today);
 
 };
 
+loadLeaderboard();
 loadWords();
