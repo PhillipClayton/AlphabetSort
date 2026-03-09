@@ -1,0 +1,103 @@
+body{
+font-family:system-ui;
+background:#f4f6fb;
+text-align:center;
+}
+
+h1{
+margin-top:25px;
+}
+
+#stats{
+margin:15px;
+font-size:18px;
+}
+
+#stats span{
+margin:0 10px;
+}
+
+.controls{
+margin-bottom:15px;
+}
+
+button,select{
+padding:8px 14px;
+font-size:15px;
+border-radius:6px;
+border:none;
+background:#4a7df3;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#365fd3;
+}
+
+select{
+background:#666;
+}
+
+#wordList{
+width:320px;
+margin:auto;
+padding:0;
+list-style:none;
+}
+
+.word{
+background:white;
+padding:12px;
+margin:6px 0;
+border-radius:6px;
+font-size:18px;
+box-shadow:0 2px 6px rgba(0,0,0,.15);
+cursor:grab;
+transition:all .15s;
+}
+
+.word:hover{
+transform:scale(1.03);
+}
+
+.correct{
+background:#b8f5c2;
+}
+
+.wrong{
+background:#ffcccc;
+}
+
+.slotHint{
+border:2px dashed #4a7df3;
+}
+
+.win{
+animation:winPop .4s ease forwards;
+}
+
+@keyframes winPop{
+
+0%{
+transform:scale(1);
+background:white;
+}
+
+50%{
+transform:scale(1.15);
+background:#7df0a5;
+}
+
+100%{
+transform:scale(1);
+background:#b8f5c2;
+}
+
+}
+
+#message{
+font-size:22px;
+margin-top:10px;
+font-weight:bold;
+}
