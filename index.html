@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Alphabet Order Game</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<h1>Alphabet Order</h1>
+
+<div id="stats">
+<span>⏱ Time: <span id="timer">0</span>s</span>
+<span>🔥 Streak: <span id="streak">0</span></span>
+<span>🏆 Best: <span id="bestTime">-</span></span>
+</div>
+
+<div class="controls">
+
+<select id="difficulty">
+<option value="5">Easy (5)</option>
+<option value="10" selected>Normal (10)</option>
+<option value="20">Hard (20)</option>
+</select>
+
+<button id="newGame">New Puzzle</button>
+<button id="daily">Daily Puzzle</button>
+
+</div>
+
+<ul id="wordList"></ul>
+
+<p id="message"></p>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
